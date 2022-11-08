@@ -1,4 +1,4 @@
-function [EEG,output_fileSET] = eeglab_remove_PA(input_fileSET_EEG,outputDir,PAType,nPC)
+function [EEG,output_fileSET] = natview_remove_PA(input_fileSET_EEG,outputDir,PAType,nPC)
 %% PURPOSE:	This removes pulse artifact signal from EEG data using a function from the EEGLAB FMRIB Toolbox
 %
 % INPUT:
