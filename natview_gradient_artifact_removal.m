@@ -1,4 +1,4 @@
-function [EEG,output_fileSET] = eeglab_gradient_artifact_removal(input_fileSET_EEG,outputDir,ANCFlag,electrodeExclude)
+function [EEG,output_fileSET] = natview_gradient_artifact_removal(input_fileSET_EEG,outputDir,ANCFlag,electrodeExclude)
 %% PURPOSE:	This script removes the gradient artifact from simultaneous EEG-fMRI data using the EEGLAB FMRIB Toolbox
 %
 % INPUT:
