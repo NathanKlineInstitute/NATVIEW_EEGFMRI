@@ -1,4 +1,4 @@
-function [EEG,output_fileSET] = eeglab_qrs_detection(input_fileSET_EEG,outputDir,ECGChannel)
+function [EEG,output_fileSET] = natview_qrs_detection(input_fileSET_EEG,outputDir,ECGChannel)
 %% PURPOSE:	This script performs QRS detection on EEG data set and inserts QRS events into .set file (QRS detection function from EEGLAB FMRIB Toolbox)
 %
 % INPUT:
