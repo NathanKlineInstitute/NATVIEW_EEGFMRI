@@ -166,14 +166,14 @@ function align_eye_videos(options)
                     % Interpolate time of triggers
                     et_events_rs = zeros(length(et_data), length(col_events));
 
-                    for e = 1:length(length(col_events))
+                    for e = 1:length(col_events)
 
                         idx_event = ismember(col_events, col_events{e});
 
                         events = et_events(:, idx_event);
     
                         if contains(col_events{e}, 'Trigger')
-                            et_events_rs(et_events_round(interp1(et_data(:,1), 1:length(et_data), et_time(events == 1))), ...
+                            et_events_rs(round(interp1(et_data(:,1), 1:length(et_data), et_time(events == 1))), ...
                                 idx_event) = 1;
                         else
     
