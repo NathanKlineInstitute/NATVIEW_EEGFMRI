@@ -1,0 +1,41 @@
+%% Collect preprocessed data in a single folder
+
+function collect_data(options)
+
+    %% Copy raw data
+    copy_data_collect(origin_dir)
+
+    % List subjects and sessions
+    [subs, sessions] = list_sub_ses(options.raw_dir);
+
+    % Define the output directory
+    raw_collect_dir = sprintf('%s/raw_bids', options.collect_dir);
+    if exist(raw_collect_dir, 'dir') == 0, mkdir(raw_collect_dir), end
+
+    % Copy all files
+    for sub = 1:length(subs) 
+        for ses = 1:length(sessions{sub})
+    
+            % List all files
+            et_dir = sprintf('%s/%s/%s/%s', options.raw_dir, subs(sub).name, sessions{sub}{ses}, options.eye_dir);
+            et_files = dir(et_dir);
+            et_files = et_files(cellfun(@(C) contains(C, options.eye_file_label), {et_files.name})); 
+            
+            for f = 1:length(et_files)
+
+                % Copy the data
+                if ispc
+                    sys_et_dir = strrep(et_dir, '/', '\');
+                    sys_raw_collect_dir = strrep(raw_collect_dir, '/', '\');
+                    system(sprintf('copy %s\\%s %s\\%s', sys_et_dir, et_files(f).name, sys_raw_collect_dir, et_files(f).name));
+                else
+                    system(sprintf('cp %s/%s %s/%s', et_dir, et_files(f).name, raw_collect_dir, et_files(f).name));
+                end
+
+            end
+
+        end
+
+    end
+
+end

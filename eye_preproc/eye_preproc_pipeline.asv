@@ -8,7 +8,7 @@ options.organize_raw = true;
 options.plot_qc = false;
 
 % Collect preprocessed data in a single folder (for easier data sharing)
-options.collect_data = false;
+options.collect_data = true;
 
 % Preprocessing
 % Interpolate blinks
@@ -43,9 +43,6 @@ options.data_dir = '/media/max/RedPassport1/natview_eegfmri';
 
 % If eyetracking data is present in a separate folder organize files in BIDS folder structure
 options.eyelink_dir = '/home/max/Documents/Dropbox (City College)/EEG-fMRI_EyeLink';
-
-% Directory to collect a copy of all data (if needed)
-options.collect_dir = sprintf('%s/eye_preproc', options.data_dir);
 
 % eeglab
 options.eeglab_dir = '/home/max/Documents/Dropbox (City College)/Code/Master/eeglab2022.1';
@@ -102,5 +99,5 @@ align_eye_videos(options)
 
 %% Collect data in a single folder (for sharing)
 if options.collect_data
-    collect_data(options)
+
 end
