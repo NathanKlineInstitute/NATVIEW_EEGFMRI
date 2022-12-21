@@ -7,9 +7,6 @@ options.organize_raw = true;
 % Plot quality control data
 options.plot_qc = false;
 
-% Delete all data except raw data (for testing pipeline)
-options.delete_data = false;
-
 % Preprocessing
 % Interpolate blinks
 options.blinkfilling = 'interp';
@@ -36,19 +33,15 @@ options.time_diff_thresh = 0.1;
     
 %% Define directories
 % Code directory
-% options.code_dir = 'C:/Users/maxne/Dropbox (City College)/Code/eye_preproc';
-options.code_dir = '/home/max/Documents/Dropbox (City College)/Code/eye_preproc';
+options.code_dir = '/home/max/Documents/Code_colabs/NATVIEW_EEGFMRI/eye_preproc';
 
 % Data directory
-% options.data_dir = 'C:/Users/maxne/Data/NKI_hackathon';
 options.data_dir = '/media/max/RedPassport1/natview_eegfmri';
 
 % If eyetracking data is present in a separate folder organize files in BIDS folder structure
-% options.eyelink_dir = 'C:/Users/maxne/Dropbox (City College)/EEG-fMRI_EyeLink';
 options.eyelink_dir = '/home/max/Documents/Dropbox (City College)/EEG-fMRI_EyeLink';
 
 % eeglab
-% options.eeglab_dir = 'C:/Users/maxne/Dropbox (City College)/Code/Master/eeglab2022.1';
 options.eeglab_dir = '/home/max/Documents/Dropbox (City College)/Code/Master/eeglab2022.1';
 
 % Raw eyetracking data
@@ -86,11 +79,6 @@ addpath(sprintf('%s/Organize', options.code_dir))
 
 % Add eeglab
 add_eeglab(options.eeglab_dir);
-
-%% Delete results (for testing purposes)
-if options.delete_data
-    delete_data(options)
-end
 
 %% Organize raw data
 if options.organize_raw
