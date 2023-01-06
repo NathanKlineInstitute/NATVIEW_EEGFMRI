@@ -109,7 +109,7 @@ function eyelink2bids(options)
                 trg_on_off(et_trgs.sample_off) = 1;
 
                 trg_timer = zeros(length(et_data),1);
-                trg_timer(et_trgs.sample_fmri) = 1;
+                trg_timer(et_trgs.sample_timer) = 1;
 
                 trg_fmri = zeros(length(et_data),1);
                 trg_fmri(et_trgs.sample_fmri) = 1;
@@ -117,7 +117,38 @@ function eyelink2bids(options)
                 et_data = [et_data, fixations, saccades, blinks, trg_on_off, trg_timer, trg_fmri];
 
                 metadata.Columns = [metadata.Columns, 'Fixations', 'Saccades', 'Blinks', ...
-                    'Task On-Off Trigger', '1s Timer Trigger', 'fMRI Volume Trigger'];
+                    'Task_Start_End_Trigger', 'Timer_Trigger_1_second', 'fMRI_Volume_Trigger'];
+
+                %% Add descriptions of the colums 
+                metadata.Time.Description = 'timestamps; time zero corresponds to the start of the task (movie, checkerboard, rest)';
+                metadata.Time.Units = 'seconds';
+
+                metadata.Gaze_X.Description = 'horizontal gaze position on the screen; Origin (0,0) at the top left)';
+                metadata.Gaze_X.Units = 'pixels';
+
+                metadata.Gaze_Y.Description = 'Vertical gaze position on the screen; Origin (0,0) at the top left)';
+                metadata.Gaze_Y.Units = 'pixels';
+
+                metadata.Pupil_Area.Description = 'pupil size reported as area (not calibrated)';
+                metadata.Pupil_Area.Units = 'arbitrary units';
+
+                metadata.Resolution_X.Description = 'instantaneous angular resolution in horizontal direction; defines the relationship between visual angle and gaze position';
+                metadata.Resolution_X.Units = 'pixels per degreee visual angle';
+
+                metadata.Resolution_Y.Description = 'instantaneous angular resolution in vertical direction; defines the relationship between visual angle and gaze position';
+                metadata.Resolution_Y.Units = 'pixels per degreee visual angle';
+
+                metadata.Fixations.Description = '1 indicates a fixation';
+
+                metadata.Saccades.Description = '1 indicates a saccade';
+
+                metadata.Blinks.Description = '1 indicates a blink';
+
+                metadata.Task_Start_End_Trigger.Description = '1 indicates the start and end of the task, respectively; sent by the stimulus PC';
+
+                metadata.Timer_Trigger_1_second.Description = '1 indicates time of a trigger sent every second by the stimulus PC';
+
+                metadata.fMRI_Volume_Trigger.Description = '1 indicates time of a trigger sent by the fMRI scanner at the start of a volume';
 
                 %% Write the eyetracking data in BIDS format
                 % Jason file for metadata

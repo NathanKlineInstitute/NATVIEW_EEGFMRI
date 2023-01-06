@@ -49,7 +49,10 @@ function eye_prep(options)
     
                     %% Save the eyetracking data
                     % Edit metadata
-                    metadata.Columns = [metadata.Columns, 'Interpolated Samples'];
+                    metadata.Columns = [metadata.Columns, 'Interpolated_Samples'];
+
+                    % Add description of the column
+                    metadata.Interpolated_Samples.Description = sprintf('1 indicates interpolated samples based on blinks detected by eyelink; includes %i ms before and after blinks', options.buffer_ms);
 
                     % Metadata
                     save_et_bids_metadata(metadata, sub_prep_dir, et_files(f).name)

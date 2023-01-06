@@ -81,7 +81,7 @@ function align_eye_videos(options)
                     et_time = table2array(et_data(:, ismember(metadata.Columns, 'Time')));
 
                     % Task start and end triggers
-                    trigger_task = find(table2array(et_data(:, ismember(metadata.Columns, 'Task On-Off Trigger'))));
+                    trigger_task = find(table2array(et_data(:, ismember(metadata.Columns, 'Task_Start_End_Trigger'))));
                     trigger_task_on = trigger_task(1);
                     trigger_task_off = trigger_task(2);
 
@@ -127,7 +127,7 @@ function align_eye_videos(options)
                     et_time = table2array(et_data(:, idx_time));
                     col_time = metadata.Columns(:, idx_time);
 
-                    idx_events = ismember(metadata.Columns, {'Fixations', 'Saccades', 'Blinks', 'fMRI Volume Trigger', 'Interpolated Samples'});
+                    idx_events = ismember(metadata.Columns, {'Fixations', 'Saccades', 'Blinks', 'fMRI_Volume_Trigger', 'Interpolated_Samples'});
                     et_events = table2array(et_data(:, idx_events));
                     col_events = metadata.Columns(:, idx_events);
 
@@ -206,6 +206,10 @@ function align_eye_videos(options)
                     out_file_label = sprintf('_%s_video_aligned_%s', eye_file_parts{1}, eye_file_parts{2});
                     out_file_json = strrep(files(f).name, options.eye_file_label, out_file_label);
 
+                    % Remove description for removed columns
+                    metadata = rmfield(metadata, 'Task_Start_End_Trigger');
+                    metadata = rmfield(metadata, 'Timer_Trigger_1_second');
+                      
                     % Metadata
                     save_et_bids_metadata(metadata, sub_dir, out_file_json)
 

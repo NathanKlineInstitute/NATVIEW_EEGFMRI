@@ -56,25 +56,30 @@ function [et_data, metadata, events, triggers] = load_asc(file_dir, file_name, t
 
     %% Align the data
     time = time/1e3;
+
+    % Align EEG and fMRI
     time_offset = time(triggers.sample_on) - eeg_start_time;
     
+    % Set the task start to time zero
+    time_start = triggers.time_on/1e3;
+
     % Adjust time of events
     events.fix_time = events.fix_time/1e3;
     events.sac_time = events.sac_time/1e3;
     events.bl_time = events.bl_time/1e3;
 
-    events.fix_time = events.fix_time - time(1);
-    events.sac_time = events.sac_time - time(1);
-    events.bl_time = events.bl_time - time(1);
+    events.fix_time = events.fix_time - time_start;
+    events.sac_time = events.sac_time - time_start;
+    events.bl_time = events.bl_time - time_start;
 
     % Adjust time of triggers
     triggers.time_on = triggers.time_on/1e3;
     triggers.time_off = triggers.time_off/1e3;
     triggers.time_timer = triggers.time_timer/1e3;
 
-    triggers.time_on =  triggers.time_on - time(1);
-    triggers.time_off =  triggers.time_off - time(1);
-    triggers.time_timer = triggers.time_timer - time(1);
+    triggers.time_on =  triggers.time_on - time_start;
+    triggers.time_off =  triggers.time_off - time_start;
+    triggers.time_timer = triggers.time_timer - time_start;
 
     %% Collect metadata 
     % Sampling frequency
@@ -90,7 +95,7 @@ function [et_data, metadata, events, triggers] = load_asc(file_dir, file_name, t
     metadata.StartTime = round(time(1) - time_offset, 4);
 
     % Organization of data table
-    metadata.Columns = {'Time', 'Gaze X', 'Gaze Y', 'Pupil Area', 'Resolution X', 'Resolution Y'};
+    metadata.Columns = {'Time', 'Gaze_X', 'Gaze_Y', 'Pupil_Area', 'Resolution_X', 'Resolution_Y'};
     
     % Device information
     metadata.Manufacturer = 'SR Research';
@@ -116,7 +121,7 @@ function [et_data, metadata, events, triggers] = load_asc(file_dir, file_name, t
     metadata.DisplayCoordinates(isnan(metadata.DisplayCoordinates)) = [];
 
     %% Set start of time axis to zero
-    time = time - time(1);
+    time = time - time_start;
 
     %% Collect data
     et_data = [time, x, y, pupil, res_x, res_y];

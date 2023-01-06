@@ -8,7 +8,7 @@ options.organize_raw = true;
 options.plot_qc = false;
 
 % Collect preprocessed data in a single folder (for easier data sharing)
-options.collect_data = false;
+options.collect_data = true;
 
 % Preprocessing
 % Interpolate blinks
