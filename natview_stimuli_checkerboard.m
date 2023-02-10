@@ -78,6 +78,7 @@ function natview_stimuli_checkerboard(input_frequency,stimulus_length,repetition
 %--------------------------------------------------------------------------
 %% Task Start Parameters
 % Modify the code here to change number of TRs to pause before task begins
+
 TR = 2.1; % TR length in seconds of fMRI sequence
 numTR = 1; % Number of TRs to wait before task begins
 scannerPause = numTR*TR;
@@ -216,13 +217,11 @@ AllowedKeys([EscKey,BCKSpc,scannerWait]) = 1; %#ok<NASGU> % Allowed escape keys
 % answer    = inputdlg(prompt,dlg_title,num_lines,def);
 % edfFile   = answer{1};
 
-
-% fprintft('EDFFile: %s\n', edfFile );
-fprintf('EDFFile: %s\n', edfFileShort );
+fprintft('EDFFile: %s\n', edfFileShort );
 
 %% Trigger Setup/Event Code Settings
 % The values in this section denote numeric value assigned to event codes 
-triggers = true;
+triggers = false;
 OSBit = 64;
 event_start = 1; % Begin task
 event_end = 99; % End task
@@ -240,7 +239,7 @@ if triggers
         ioObject = setuptrigger_io64;
     end
 else
-    fprintft('Not using triggers\n'); %#ok<UNRCH>
+    fprintft('Not using triggers\n');
 end
 
 %% Psychtoolbox/Screen Setup
