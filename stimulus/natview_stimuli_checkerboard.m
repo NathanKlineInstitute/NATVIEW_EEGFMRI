@@ -1,4 +1,4 @@
-function natview_stimuli_checkerboard(input_frequency,stimulus_length,repetitions,gridSize,gridSpokes,dummyMode,scannerMode,monkeyMode)
+function natview_stimuli_checkerboard(input_frequency,stimulus_length,repetitions,gridSize,gridSpokes,eyeMode,scannerMode,monkeyMode)
 %% PURPOSE:	Uses Psychtoolbox to display flickering circular checkerboard.
 %           Checkerboard stimulus uses a block design with a period of rest
 %           followed by a period of a flickering checkerboard. Users can
@@ -29,6 +29,14 @@ function natview_stimuli_checkerboard(input_frequency,stimulus_length,repetition
 %
 %                gridSpokes - Number of spokes comprised in grid
 %                             (Default: 12)
+%
+%                   eyeMode - Flag to run task with EyeLink software and
+%                             collect eye tracking data. When flag is on
+%                             (=1), MATLAB interfaces with EyeLink software
+%                             and records eye tracking data. When flag is
+%                             off (=0), no data is collected.
+%                             NOTE: Keep flag off if no eye tracker present
+%                             (Default: 0)
 %
 %                 dummyMode - Flag to run task with EyeLink software or run
 %                             in "dummy" mode. When flag is on (=1), MATLAB
@@ -83,10 +91,11 @@ TR = 2.1; % TR length in seconds of fMRI sequence
 numTR = 1; % Number of TRs to wait before task begins
 scannerPause = numTR*TR;
 
+% Output directory default is MATLAB user path, but can be user specified
+outputDir = userpath; % Output directory for eye tracking data
+
 %% Error Checking
 % Checks input(s) and use default if parameter(s) unused or left empty
-outputDir = userpath;
-cd(outputDir); % Go to MATLAB user path
 
 % Frequency rate of flickering checkerboard
 if(nargin < 1 || isempty(input_frequency))
@@ -118,12 +127,19 @@ if(nargin < 5 || isempty(gridSpokes))
 end
 
 % Eye Tracking Mode: Flag to run script with/without eye tracking
-% Default: Run WITH eye tracking (dummyMode = 0)
-if(nargin < 6 || isempty(dummyMode))
-    dummyMode = 0;
+% Default: Run WITH NO eye tracking (eyeMode = 0)
+if(nargin < 6 || isempty(eyeMode))
+    eyeMode = 0;
 end
 
-% Scanner Mode: Flag to run task with scanner on or off
+% Dummy mode used if no eye tracker present or eye tracker not in use
+if(eyeMode == 1)
+    dummyMode = 0;
+else
+    dummyMode = 1;
+end
+
+% Scanner Mode: Flag to run task with trigger from scanner
 % Default: Scanner OFF (scannerMode = 0), i.e., trigger task manually
 if(nargin < 7 || isempty(scannerMode))
     scannerMode = 0;
@@ -135,6 +151,10 @@ if(nargin < 8 || isempty(monkeyMode))
     monkeyMode = 0;
 end
 
+% MATLAB Code analyzer suppression flags
+%#ok<*NASGU> % Might be unused
+%#ok<*UNRCH> % Cannot be reached
+
 %% User Prompts/Input Parameters
 % User will be prompted to enter seriesNum (series number from scanner) and
 % runNum (repetition of video presentation). Input used for EDF filename.
@@ -142,7 +162,7 @@ end
 seriesNum = input('Please enter series number (order after running prescan outside): ');
 runNum    = input('Please enter run number: ');
 
-%% EDF File Naming
+%% Eye Tracking EDF File Naming
 % This section of code combines user input and other parameters to generate
 % a long and short filename for EDF file saved at the end of task
 
@@ -198,9 +218,9 @@ scannerWait = KbName('space');
 EscKey = KbName('Escape');
 BCKSpc = KbName('backspace');
 
-keyboard = -1; %#ok<NASGU>
+keyboard = -1;
 AllowedKeys = zeros(256,1); % Disable all keys
-AllowedKeys([EscKey,BCKSpc,scannerWait]) = 1; %#ok<NASGU> % Allowed escape keys
+AllowedKeys([EscKey,BCKSpc,scannerWait]) = 1; % Allowed escape keys
 
 %% EyeLink Setup
 % EyeLink: STEP 1
@@ -222,7 +242,7 @@ fprintft('EDFFile: %s\n', edfFileShort );
 %% Trigger Setup/Event Code Settings
 % The values in this section denote numeric value assigned to event codes 
 triggers = false;
-OSBit = 64;
+OSBit = 64; 
 event_start = 1; % Begin task
 event_end = 99; % End task
 event_rest = 10; % Begin rest block
@@ -233,7 +253,7 @@ event_frame_checker1 = 26; % Checkerboard block event code, 1s interval
 event_frame_checker2 = 27; % Checkerboard block event code, 1s interval
 
 if triggers
-    fprintft('Using triggers\n');
+    fprintft('Using triggers\n'); 
     triggerport = hex2dec('D050');
     if OSBit==64
         ioObject = setuptrigger_io64;
