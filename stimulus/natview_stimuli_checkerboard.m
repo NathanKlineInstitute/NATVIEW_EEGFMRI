@@ -38,14 +38,6 @@ function natview_stimuli_checkerboard(input_frequency,stimulus_length,repetition
 %                             NOTE: Keep flag off if no eye tracker present
 %                             (Default: 0)
 %
-%                 dummyMode - Flag to run task with EyeLink software or run
-%                             in "dummy" mode. When flag is on (=1), MATLAB
-%                             interfaces with EyeLink software and records
-%                             eye tracking data. When running in dummy mode
-%                             (=0), no data is collected.
-%                             NOTE: Use this mode if not using eye tracker
-%                             (Default: 0)
-%
 %               scannerMode - Flag to start task with MRI scanner or
 %                             manually with keyboard. When flag is on (=1),
 %                             scripts waits for scanner trigger to begin
