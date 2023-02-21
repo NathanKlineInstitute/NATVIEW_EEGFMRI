@@ -55,6 +55,10 @@ if(nargin < 4 || isempty(options))
     options.step9_ica        = 0;
     options.final            = 1;
 end
+
+if(~isfield(options,'final'))
+    options.final = 1;
+end
 %% STEP 0: Load data into EEGLAB
 [~,fileName] = fileparts(fileNameSET);
 EEG = pop_loadset(fileNameSET); % Load SET file into MATLAB
@@ -96,7 +100,7 @@ if(strcmp(task,'checker') || ...
 end
 
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step1_gradient'))
     if(options.step1_gradient == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-1gradient'],'filepath',outputDir);
     end
@@ -153,7 +157,7 @@ catch
 end
 
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step2a_qrs'))
     if(options.step2a_qrs == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-2aqrs'],'filepath',outputDir);
     end
@@ -165,7 +169,7 @@ PAType = 'median'; % Template for pulse artifact (Default: median)
 EEG = pop_fmrib_pas(EEG,'QRS',PAType); % Pulse Artifact removal
 
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step2b_pulse'))
     if(options.step2b_pulse == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-2bpulse'],'filepath',outputDir);
     end
@@ -176,7 +180,7 @@ resample_freq = 250;
 EEG = pop_resample(EEG,resample_freq);
       
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step3_downsample'))
     if(options.step3_downsample == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-3downsample'],'filepath',outputDir);
     end
@@ -186,7 +190,7 @@ end
 EEG  = pop_select(EEG,'nochannel',electrodeExclude);
 
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step4_nonEEG'))
     if(options.step4_nonEEG == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-4nonEEG'],'filepath',outputDir);
     end
@@ -198,7 +202,7 @@ freq_hi = 50;
 EEG = pop_eegfiltnew(EEG,'locutoff',freq_lo,'hicutoff',freq_hi);
 
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step5_bandpass'))
     if(options.step5_bandpass == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-5bandpass'],'filepath',outputDir);
     end
@@ -216,7 +220,7 @@ EEG = pop_clean_rawdata(EEG,'FlatlineCriterion',5,...
                             'WindowCriterionTolerances','off');
   
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step6_bad'))
     if(options.step6_bad == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-6bad'],'filepath',outputDir);
     end
@@ -234,7 +238,7 @@ EEG = pop_clean_rawdata(EEG,'FlatlineCriterion','off',...
                             'WindowCriterionTolerances',[-inf 7]);
                     
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step7_asr'))
     if(options.step7_asr == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-7asr'],'filepath',outputDir);
     end
@@ -244,7 +248,7 @@ end
 EEG = pop_reref(EEG,[]);
                     
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step8_reference'))
     if(options.step8_reference == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-8reference'],'filepath',outputDir);
     end
@@ -257,14 +261,14 @@ EEG = pop_icflag(EEG,[NaN NaN; 0.8 1; 0.8 1; NaN NaN; NaN NaN; NaN NaN; NaN NaN]
 EEG = pop_subcomp(EEG,[]);
             
 % Save intermediate
-if(saveIntermediates == 1)
+if(saveIntermediates == 1 && isfield(options, 'step9_ica'))
     if(options.step9_ica == 1)
         pop_saveset(EEG,'filename',[fileName,'_preprocess-9ica'],'filepath',outputDir);
     end
 end
 
 %% STEP 10: Saving preprocessing data into output directory
-if(options.final == 1)
+if(isempty(saveIntermediates) || options.final == 1)
     pop_saveset(EEG,'filename',[fileName,'_preprocess'],'filepath',outputDir);
 end
 
