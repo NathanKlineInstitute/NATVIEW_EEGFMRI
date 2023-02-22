@@ -35,9 +35,9 @@ if(nargin < 2 || isempty(outputDir))
     outputDir = pwd;
 end
 
-% Save intermediate preprocessing files (Default: [])
+% Save intermediate preprocessing files (Default: 0)
 if(nargin < 3 || isempty(saveIntermediates))
-    saveIntermediates = [];
+    saveIntermediates = 0;
 end
 
 % Options STRUCT (Default: Only save final output)
@@ -56,9 +56,11 @@ if(nargin < 4 || isempty(options))
     options.final            = 1;
 end
 
+% Create 'final' flag if not included with input options
 if(~isfield(options,'final'))
     options.final = 1;
 end
+
 %% STEP 0: Load data into EEGLAB
 [~,fileName] = fileparts(fileNameSET);
 EEG = pop_loadset(fileNameSET); % Load SET file into MATLAB
