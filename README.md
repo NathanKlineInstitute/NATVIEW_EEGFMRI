@@ -14,6 +14,7 @@ Included here on this Github repository are various MATLAB scripts, Bash scripts
 ## EEG
 Contains MATLAB script for preprocessing EEG data collected in the NATVIEW_EEGFMRI data release. This script requires [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) and the [FMRIB Plug-In for EEGLAB](https://fsl.fmrib.ox.ac.uk/eeglab/fmribplugin/).
 * ***natview_eeg_preprocess_pipeline.m***: MATLAB script for preprocessing EEG data collected inside MRI scanner. Script performs gradient artifact removal, QRS detection/pulse artifact removal, and various filtering steps for cleaning data.
+* ***BC-MR-64-X52.bvef***: Includes the electrode name as well as their physical channel order for cap montage. This cap was modified to include two EOG electrodes (EOGL and EOGU) below and above the left eye.
 
 ## fMRI
 Contains code from [Connectome Computation System (CCS) preprocessing pipeline](https://github.com/TingsterX/CCS-pipeline).
