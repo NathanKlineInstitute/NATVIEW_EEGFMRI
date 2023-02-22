@@ -70,14 +70,14 @@ function natview_stimuli_checkerboard(input_frequency,stimulus_length,repetition
 % * Subject shown flickering checkerboard with a flicker rate of 10Hz with
 %   a stimulus duration of 20s (20s rest, 20s checkerboard) over 5
 %   repetions (experiment length: 200s). The circular pattern contains 10
-%   concentric circles with 15 spokes. This task run in dummy mode, so EDF
-%   file is not saved.
+%   concentric circles with 15 spokes.
+%   - Script run with eye tracking, saves EyeLink/EDF file.
 %
 % >> natview_stimuli_checkerboard(12,30,5,16,24)
 % * Subject shown flickering checkerboard with a flicker rate of 12Hz with
 %   a stimulus duration of 30s over 5 repetions (experiment length: 300s).
 %   The circular pattern contains 16 concentric circles with 24 spokes.
-%   Script saves EyeLink/EDF file with the name
+%   - Script run without eye tracking (dummy mode), EDF file is not saved.
 %
 %--------------------------------------------------------------------------
 %% Task Start Parameters
