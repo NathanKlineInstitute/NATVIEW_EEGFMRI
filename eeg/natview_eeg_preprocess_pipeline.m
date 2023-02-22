@@ -80,9 +80,10 @@ session = fileInfo{2}; % Session
 task = fileInfo{3};    % Task Name
 runNum = fileInfo{4};  % Run
 
-output_fileName = [subject,'_',session,'_',task];
 if(strcmp(runNum(1:4),'run-'))
     output_fileName = [subject,'_',session,'_',task,'_',runNum];
+else
+    output_fileName = [subject,'_',session,'_',task];
 end
 
 %% Non-EEG Channel specification
