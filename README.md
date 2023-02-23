@@ -9,7 +9,7 @@ The data release includes:
 
 Included here on this Github repository are various MATLAB scripts, Bash scripts and files related to preprocessing simultaneously collected data. Below you will find a description of the various modalities and their associated code.
 
-***NOTE: This code is for preprocessing the NATVIEW_EEGFMRI data set with files organized in the [Brain Imaging Data Structure (BIDS)](https://bids.neuroimaging.io/) format. These preprocessing steps can be applied to any simultaneously collected EEG data, but requires code modification.***
+***NOTE: This code is for preprocessing the NATVIEW_EEGFMRI data set with files organized in the [Brain Imaging Data Structure (BIDS)](https://bids.neuroimaging.io/) format. These preprocessing steps can be applied to any simultaneously collected EEG data, but code modification required if file is not in BIDS format.***
 
 ## EEG
 Contains MATLAB script for preprocessing EEG data collected in the NATVIEW_EEGFMRI data release. This script requires [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) and the [FMRIB Plug-In for EEGLAB](https://fsl.fmrib.ox.ac.uk/eeglab/fmribplugin/).
