@@ -1,5 +1,5 @@
 ## EEG Preprocessing Pipeline
-These instructions will show user how to preprocess EEG data from the NATVIEW_EEGFMRI data release. This script can also work on EEG data collected by user, provided the filename is in [BIDS](https://bids.neuroimaging.io/) format. User must download and install [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) and the [FMRIB Plug-In for EEGLAB](https://fsl.fmrib.ox.ac.uk/eeglab/fmribplugin/) to properly run this script.
+These instructions show user how to preprocess EEG data from the NATVIEW_EEGFMRI data release. This script can also work on EEG data collected by user, provided the filename is in [BIDS](https://bids.neuroimaging.io/) format. User must download and install [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) and the [FMRIB Plug-In for EEGLAB](https://fsl.fmrib.ox.ac.uk/eeglab/fmribplugin/) to properly run this script.
 
 ***Example 1***:
 
