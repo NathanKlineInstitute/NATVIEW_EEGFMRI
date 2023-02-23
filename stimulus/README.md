@@ -3,7 +3,7 @@ This section contains MATLAB scripts for stimulus presentation. These scripts us
 
 Users should also download the ```helpers.zip```, which contains MATLAB functions to send and receive triggers via parallel port. In addition, contains functions to use installed video players with MATLAB. Please also download [MPlayer](http://www.mplayerhq.hu/design7/news.html) and [FFmpeg](https://ffmpeg.org/) for video playback.
 
-*** Installation Instructions ***
+***Installation Instructions***
 1. Copy ```natview_stimuli_checkerboard.m``` and ```natview_stimuli_video.m``` to desired MATLAB path.
 2. Unzip ```helpers.zip``` to desired MATLAB path.
 3. Download MPlayer and FFmpeg. Install software to ```helpers``` directory.
