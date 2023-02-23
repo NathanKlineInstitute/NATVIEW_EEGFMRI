@@ -1,11 +1,23 @@
 %% Convert eyetracking data to BIDS format and compute quality control metrics
 
 %% Set flags and variables for preprocessing
-% If raw data is in a single folder it should be organized in BIDS folder structure
-options.organize_raw = true;
+% Convert raw to BIDS (raw data is already provided in BIDS format, so this
+% option probably will not be set true)
+options.convert_to_bids = false;
+
+% If raw data is in a single folder it should be organized in BIDS folder
+% structure (only needed if the step above is true)
+options.organize_raw = false;
 
 % Plot quality control data
-options.plot_qc = false;
+options.plot_qc = true;
+
+% Download eyetracking data over the command line interface (tested only on Linux)
+% Requires installation: https://duck.sh/
+% If false download data manually and define options.raw_dir
+% In addition, for alignment with EEG data, the preprocessed EEG data is
+% necessary. Define the path in options.preproc_dir
+options.download_data = false;
 
 % Collect preprocessed data in a single folder (for easier data sharing)
 options.collect_data = true;
@@ -33,7 +45,21 @@ options.rest_fs = 30;
 % Threshold for time difference between video and eyetracking data [s]
 % Data with a larger difference will be corrected
 options.time_diff_thresh = 0.1;
-    
+
+%% Options for data download
+% Select subjects 'sub-01' to 'sub-22, or 'all' 
+options.sub_select = {'all'};
+
+% Select tasks specific task ('checker', 'checkeroff', 'dme_run-01', 'dme_run-02', 'monkey1_run-01', 'monkey1_run-02', 
+% 'monkey2_run-01', 'monkey2_run-02', 'monkey5_run-01', 'monkey5_run-02', 'rest', 'tp_run-01', 'tp_run-02'), or 'all'
+options.task_select = {'all'};
+
+% Select modality 
+options.mod_select = '_recording-eyetracking_physio';
+
+% Define the path to the data
+options.bucket_address = 's3:/fcp-indi/data/Projects/NATVIEW_EEGFMRI';
+
 %% Define directories
 % Code directory
 options.code_dir = '/home/max/Documents/Code_colabs/NATVIEW_EEGFMRI/eye_preproc';
@@ -56,8 +82,8 @@ options.raw_dir = sprintf('%s/raw_data', options.data_dir);
 % Preprocessed eyetracking data
 options.preproc_dir = sprintf('%s/preproc_data', options.data_dir);
 
-% Subfolder containing eyetracking data
-options.eye_dir = 'func';
+% Subfolder containing eyetracking data 
+options.eye_dir = 'eeg';
 
 % Subfolder containing EEG data
 options.eeg_dir = 'eeg';
@@ -89,6 +115,11 @@ add_eeglab(options.eeglab_dir);
 %% Organize raw data
 if options.organize_raw
     organize_raw_data(options)
+end
+
+%% Download the data in BIDS format from AWS
+if ~options.convert_to_bids && options.download_data
+    download_eye_data(options)
 end
 
 %% Convert eyelink data to BIDS format and collect quality control data

@@ -12,7 +12,7 @@ function eye_prep(options)
             % List all .edf files
             options.et_dir = sprintf('%s/%s/%s/%s', options.raw_dir, subs(sub).name, sessions{sub}{ses}, options.eye_dir);
             et_files = dir(options.et_dir);
-            et_files = et_files(cellfun(@(C) contains(C, sprintf('%s.json', options.eye_file_label)), {et_files.name})); 
+            et_files = et_files(cellfun(@(C) contains(C, sprintf('%s.json', options.eye_file_label(2:end))), {et_files.name})); 
     
             % Define the output directory
             sub_prep_dir = sprintf('%s/%s/%s/%s', options.preproc_dir, subs(sub).name, sessions{sub}{ses}, options.eye_dir);

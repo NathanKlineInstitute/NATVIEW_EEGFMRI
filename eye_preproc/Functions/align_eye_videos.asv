@@ -203,8 +203,8 @@ function align_eye_videos(options)
                     eye_file_parts = strsplit(options.eye_file_label, '_');
                     eye_file_parts(cellfun(@(C) isempty(C), eye_file_parts)) = [];
 
-                    out_file_label = sprintf('%s_video_aligned_%s', eye_file_parts{1}, eye_file_parts{2});
-                    out_file_json = strrep(files(f).name, options.eye_file_label(2:end), out_file_label);
+                    out_file_label = sprintf('_%s_video_aligned_%s', eye_file_parts{1}, eye_file_parts{2});
+                    out_file_json = strrep(files(f).name, options.eye_file_label, out_file_label);
 
                     % Remove description for removed columns
                     metadata = rmfield(metadata, 'Task_Start_End_Trigger');
