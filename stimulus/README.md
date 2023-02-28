@@ -8,3 +8,10 @@ Users should also download the ```helpers.zip```, which contains MATLAB function
 2. Unzip ```helpers.zip``` to desired MATLAB path.
 3. Download MPlayer and FFmpeg. Install software to ```helpers``` directory.
 4. In MATLAB add ```helpers``` directory to MATLAB path.
+
+
+
+***Video Files***
+
+The video files used in this study can be downloaded from [here](https://fcon_1000.projects.nitrc.org/indi/retro/NAT_VIEW/videos.tar.gz)
+
