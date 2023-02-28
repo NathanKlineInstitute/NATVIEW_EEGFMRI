@@ -83,4 +83,20 @@ function download_eye_data(options)
         end
     end
 
+    %% Download the video data
+    system(sprintf('duck --download %s/%s %s', options.video_address, options.video_folder, options.data_dir));
+
+    % Unzip
+    gunzip(sprintf('%s/%s', options.data_dir, options.video_folder))
+    untar(sprintf('%s/%s', options.data_dir, strrep(options.video_folder, '.gz', '')), ...
+        sprintf('%s/%s', options.data_dir, strrep(options.video_folder, '.tar.gz', '')))
+
+    % Organize 
+    vid_folder = strrep(options.video_folder, '.tar.gz', '');
+    system(sprintf('mv -f %s/%s/%s/{.,}* %s/%s/', options.data_dir, vid_folder, vid_folder, options.data_dir, vid_folder));
+    system(sprintf('rm -r %s/%s/%s', options.data_dir, vid_folder, vid_folder));
+    system(sprintf('rm %s/%s', options.data_dir, strrep(options.video_folder, '.gz', '')));
+    system(sprintf('rm %s/%s', options.data_dir, options.video_folder));
+
+
 end

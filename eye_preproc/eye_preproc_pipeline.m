@@ -1,21 +1,13 @@
 %% Convert eyetracking data to BIDS format and compute quality control metrics
 
-%% To-do 
-% Download data
-% Relative data paths
-% Check data collection 
-
 %% Packages 
 % eyelink developers kit (for eyelink_edf2asc)
+% EEGlab 
 
 %% Set flags and variables for preprocessing
 % Convert raw to BIDS (raw data is already provided in BIDS format, so this
 % option probably will not be set true)
 options.convert_to_bids = false;
-
-% If raw data is in a single folder it should be organized in BIDS folder
-% structure (only needed if the step above is true)
-options.organize_raw = false;
 
 % Plot quality control data
 options.plot_qc = true;
@@ -30,7 +22,7 @@ options.download_data = false;
 % Collect preprocessed data in a single folder (for easier data sharing)
 options.collect_data = false;
 
-% Preprocessing
+%% Preprocessing settings
 % Interpolate blinks
 options.blinkfilling = 'interp';
 
@@ -68,21 +60,19 @@ options.mod_select = '_recording-eyetracking_physio';
 % Define the path to the data
 options.bucket_address = 's3:/fcp-indi/data/Projects/NATVIEW_EEGFMRI';
 
+% Video files are on a different server
+options.video_address = 'https://fcon_1000.projects.nitrc.org/indi/retro/NAT_VIEW';
+options.video_folder = 'videos.tar.gz';
+
 %% Define directories
 % Code directory
-options.code_dir = '/home/max/Documents/Code_colabs/NATVIEW_EEGFMRI/eye_preproc';
+options.code_dir = pwd;
 
 % Data directory
-options.data_dir = '/media/max/RedPassport1/natview_eegfmri';
-
-% If eyetracking data is present in a separate folder organize files in BIDS folder structure
-options.eyelink_dir = '/home/max/Documents/Dropbox (City College)/EEG-fMRI_EyeLink';
+options.data_dir = uigetdir('/media/max/RedPassport1', 'Select the directory containing raw data');
 
 % Directory to collect a copy of all data (if needed)
 options.collect_dir = sprintf('%s/eye_preproc', options.data_dir);
-
-% eeglab
-options.eeglab_dir = '/home/max/Documents/Dropbox (City College)/Code/Master/eeglab2022.1';
 
 % Raw eyetracking data
 options.raw_dir = sprintf('%s/raw_data', options.data_dir);
@@ -115,17 +105,22 @@ options.fig_align_dir = './Figures/video_alignment';
 if exist(options.fig_align_dir, 'dir') == 0, mkdir(options.fig_align_dir), end
 
 % Video files
-options.vid_dir = sprintf('%s/video_files', options.data_dir);
+options.vid_dir = sprintf('%s/%s', options.data_dir, strrep(options.video_folder, '.tar.gz', ''));
 
 % Luminance files
 options.lum_dir = sprintf('%s/vid_luminance', options.data_dir);
 
 % Add functions and metadata
-addpath(sprintf('%s/Functions', options.code_dir))
-addpath(sprintf('%s/Organize', options.code_dir))
+addpath('./Functions')
+addpath('./Organize')
 
 % Add eeglab
-add_eeglab(options.eeglab_dir);
+add_eeglab();
+
+%% Download data
+if options.download_data
+    download_eye_data(options)
+end
 
 %% Compute video metadata
 compute_vid_metadata(options)

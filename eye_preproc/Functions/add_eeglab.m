@@ -1,5 +1,6 @@
-function add_eeglab(eeglab_dir)
+function add_eeglab()
 
+    eeglab_dir = uigetdir('/home/max/Documents/Dropbox (City College)/Code/Master', 'Select the directory containing EEGlab');
     addpath(eeglab_dir);
     
     try
