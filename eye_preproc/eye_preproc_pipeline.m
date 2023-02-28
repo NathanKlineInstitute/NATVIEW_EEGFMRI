@@ -22,7 +22,7 @@ options.download_data = false;
 % Collect preprocessed data in a single folder (for easier data sharing)
 options.collect_data = false;
 
-%% Preprocessing settings
+%% Preprocessing settingsye
 % Interpolate blinks
 options.blinkfilling = 'interp';
 

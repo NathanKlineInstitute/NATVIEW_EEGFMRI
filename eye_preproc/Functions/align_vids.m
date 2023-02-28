@@ -60,7 +60,7 @@ function align_vids(et_file, options)
     
     % In many recordings of incapes the videoplayback is delayed
     if contains(et_file, 'inscapes') && metadata.TimeDifferenceEyetrackingVideo > options.time_diff_thresh
-        offset = height(et_data) - (vid_T(idx_vid) * metadata.SamplingFrequency);
+        offset = round(height(et_data) - (vid_T(idx_vid) * metadata.SamplingFrequency));
         et_data = et_data(offset+1:end, :); 
     end
     
