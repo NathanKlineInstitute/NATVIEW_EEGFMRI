@@ -1,4 +1,4 @@
-# Conversion of eyetracking data to BIDS format and preprocessing
+### Conversion of eyetracking data to BIDS format and preprocessing
 
 Data in eyelink format is not provided. The code for conversion to BIDS format is provided for documentation. Raw eyetracking data was available in eyelink .edf files and was processed using the [EyeLink Developers Kit](https://www.sr-research.com/support/thread-13.html)
 
