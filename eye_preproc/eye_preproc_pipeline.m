@@ -1,5 +1,13 @@
 %% Convert eyetracking data to BIDS format and compute quality control metrics
 
+%% To-do 
+% Download data
+% Relative data paths
+% Check data collection 
+
+%% Packages 
+% eyelink developers kit (for eyelink_edf2asc)
+
 %% Set flags and variables for preprocessing
 % Convert raw to BIDS (raw data is already provided in BIDS format, so this
 % option probably will not be set true)
@@ -89,15 +97,22 @@ options.eye_dir = 'eeg';
 options.eeg_dir = 'eeg';
 
 % Label for eyetracking files
-options.eye_file_label = '_eyetracking_physio';
+options.eye_file_label = '_recording-eyetracking_physio';
 
 % Results
-options.res_dir = sprintf('%s/Results/et_quality', options.code_dir);
+options.res_dir = './Results/et_quality';
 if exist(options.res_dir, 'dir') == 0, mkdir(options.res_dir), end
 
+% Video alignment
+options.align_dir = './Results/video_alignment';
+if exist(options.align_dir, 'dir') == 0, mkdir(options.align_dir), end
+
 % Figures
-options.fig_dir = sprintf('%s/Figures/et_quality', options.code_dir);
+options.fig_dir = './Figures/et_quality';
 if exist(options.fig_dir, 'dir') == 0, mkdir(options.fig_dir), end
+
+options.fig_align_dir = './Figures/video_alignment';
+if exist(options.fig_align_dir, 'dir') == 0, mkdir(options.fig_align_dir), end
 
 % Video files
 options.vid_dir = sprintf('%s/video_files', options.data_dir);
@@ -112,24 +127,89 @@ addpath(sprintf('%s/Organize', options.code_dir))
 % Add eeglab
 add_eeglab(options.eeglab_dir);
 
-%% Organize raw data
-if options.organize_raw
-    organize_raw_data(options)
+%% Compute video metadata
+compute_vid_metadata(options)
+
+%% Setup
+% List subjects and sessions
+[subs, sessions] = list_sub_ses(options.raw_dir);
+   
+for sub = 1:length(subs)
+    for ses = 1:length(sessions{sub})
+
+        % List all .edf files
+        options.et_dir = sprintf('%s/%s/%s/%s', options.raw_dir, subs(sub).name, sessions{sub}{ses}, options.eye_dir);
+        et_files = dir(options.et_dir);
+
+        if options.convert_to_bids
+            et_files = et_files(cellfun(@(C) contains(C, '.edf'), {et_files.name})); 
+        else
+            et_files = et_files(cellfun(@(C) contains(C, options.mod_select), {et_files.name})); 
+            et_files = et_files(cellfun(@(C) contains(C, '.json'), {et_files.name}));
+        end
+
+        for f = 1:length(et_files)
+
+            %% Convert the EDF files to BIDS format
+
+            %% Convert the EDF files to .asc using the eyelink developers kit
+            if options.convert_to_bids 
+                edf_file = sprintf('%s/%s', options.et_dir, et_files(f).name);
+                eyelink_edf2asc(edf_file)
+            end
+
+            %% Load the EEG triggers
+            eeg_dir = sprintf('%s/%s/%s/%s', options.preproc_dir, subs(sub).name, sessions{sub}{ses}, options.eeg_dir);
+
+            if options.convert_to_bids
+                eeg_file = strrep(et_files(f).name, '_eyelink.edf', '_eeg.set');
+            else
+                eeg_file = strrep(et_files(f).name, sprintf('%s.json', options.eye_file_label), '_eeg.set');
+            end
+
+            eeg_file = sprintf('%s/%s', eeg_dir, eeg_file);
+            eeg_trgs = read_eeg_trg(eeg_file, options);
+
+            % Continue if EEG triggers are not available
+            if isempty(eeg_trgs), continue, end
+
+            %% Convert the asc file to BIDS format
+            if options.convert_to_bids
+                [et_data, metadata] = asc2bids(et_files(f).name, eeg_trgs, options);
+            end
+
+            %% Compute the quality control data
+            % BIDS file name
+            if options.convert_to_bids
+                et_file_name = strrep(et_files(f).name, '_eyelink.edf', sprintf('%s.tsv.gz', options.eye_file_label));
+            else
+                et_file_name = strrep(et_files(f).name, '.json', '.tsv.gz');
+            end
+
+            qc_data(et_file_name, eeg_trgs, options)
+
+            %% Double-check the files
+            check_et(et_file_name, options);
+
+            %% Preprocess the data
+            % Define output file
+            sub_prep_dir = sprintf('%s/%s/%s/%s', options.preproc_dir, subs(sub).name, sessions{sub}{ses}, options.eye_dir);
+            et_prep_file = sprintf('%s/%s', sub_prep_dir, et_file_name);
+
+            eye_prep(et_prep_file, options)
+
+            %% Align the data to the videos
+            align_vids(et_prep_file, options)
+
+        end
+
+    end
 end
 
-%% Download the data in BIDS format from AWS
-if ~options.convert_to_bids && options.download_data
-    download_eye_data(options)
+%% Quality control summary
+if options.plot_qc    
+    plot_qc(options)
 end
-
-%% Convert eyelink data to BIDS format and collect quality control data
-eyelink2bids(options)
-
-%% Preprocess the eyetracking data
-eye_prep(options)
-
-%% Align eyetracking data to videos
-align_eye_videos(options)
 
 %% Collect data in a single folder (for sharing)
 if options.collect_data
