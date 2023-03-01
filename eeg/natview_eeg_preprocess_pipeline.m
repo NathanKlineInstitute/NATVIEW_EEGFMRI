@@ -79,11 +79,7 @@ end
 subject = fileInfo{1}; % Participant ID
 session = fileInfo{2}; % Session
 task = fileInfo{3};    % Task Name
-if length(fileInfo) >= 4
-    runNum = fileInfo{4};  % Run
-else
-    runNum = 'xxxx';
-end
+runNum = fileInfo{4};  % Run
 
 if(strcmp(runNum(1:4),'run-'))
     output_fileName = [subject,'_',session,'_',task,'_',runNum];
