@@ -1,9 +1,5 @@
 %% Convert eyetracking data to BIDS format and compute quality control metrics
 
-%% Packages 
-% eyelink developers kit (for eyelink_edf2asc)
-% EEGlab 
-
 %% Set flags and variables for preprocessing
 % Convert raw to BIDS (raw data is already provided in BIDS format, so this
 % option probably will not be set true)
