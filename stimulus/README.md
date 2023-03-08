@@ -13,5 +13,5 @@ Users should also download the ```helpers.zip```, which contains MATLAB function
 
 ***Video Files***
 
-The video files used in this study can be downloaded from [here](https://fcon_1000.projects.nitrc.org/indi/retro/NAT_VIEW/videos.tar.gz)
+The video files used in this study can be downloaded from [here](https://fcon_1000.projects.nitrc.org/indi/retro/NAT_VIEW/video.tar.gz) for the Despicable Me, Inscapes, and The Present movies. For the monkey movies, you can download from [here](https://zenodo.org/record/4623809#.ZAf6VOzMIeU).
 
