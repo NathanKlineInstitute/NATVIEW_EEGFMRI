@@ -97,29 +97,31 @@ electrodeExclude = [ECGChan,EOGLChan,EOGUChan];
 % This step performs gradient artifact removal using FMRIB Toolbox
 % Link: https://fsl.fmrib.ox.ac.uk/eeglab/fmribplugin/
 if(strcmp(task,'task-checker') || ...
-   strcmp(task,'task-dme') || ...
-   strcmp(task,'task-dmh') || ...
-   strcmp(task,'task-inscapes') || ...
-   strcmp(task,'task-monkey1') || ...
-   strcmp(task,'task-monkey2') || ...
-   strcmp(task,'task-monkey5') || ...
-   strcmp(task,'task-peer') || ...
-   strcmp(task,'task-rest') || ...
-   strcmp(task,'task-tp'))
+        strcmp(task,'task-dme') || ...
+        strcmp(task,'task-dmh') || ...
+        strcmp(task,'task-inscapes') || ...
+        strcmp(task,'task-monkey1') || ...
+        strcmp(task,'task-monkey2') || ...
+        strcmp(task,'task-monkey5') || ...
+        strcmp(task,'task-peer') || ...
+        strcmp(task,'task-rest') || ...
+        strcmp(task,'task-tp'))
     EEG = pop_fmrib_fastr(EEG,[],[],[],'R128',1,0,[],[],[],[],electrodeExclude,'auto'); % Remove gradient artifact
-end
 
-% Save intermediate
-if(saveIntermediates == 1 && isfield(options, 'step1_gradient'))
-    if(options.step1_gradient == 1)
-        pop_saveset(EEG,'filename',[output_fileName,'_preprocess-1gradient_eeg'],'filepath',outputDir);
+    % Save intermediate
+    if(saveIntermediates == 1 && isfield(options, 'step1_gradient'))
+        if(options.step1_gradient == 1)
+            pop_saveset(EEG,'filename',[output_fileName,'_preprocess-1gradient_eeg'],'filepath',outputDir);
+        end
     end
 end
 
+
+
 %% STEP 2a: QRS Detection
 % This step detects QRS complexes in the ECG channel. If the function fails
-% to find QRS complex, QRS detection is performed on every EEG channel; the
-% channel chosen for QRS detection equals the mode of the QRS counts
+% to find QRS complexes, QRS detection is performed on every EEG channel;
+% the channel chosen for QRS detection equals the mode of QRS counts
 try
     EEG = pop_fmrib_qrsdetect(EEG,ECGChan,'QRS','no'); % FMRIB Toolbox QRS Detection
 catch
@@ -148,8 +150,7 @@ catch
     [QRSCount_mode, QRSCount_modeNum] = mode(QRSCount);
     [QRSCount_sort, QRSCount_sort_idx] = sort(QRSCount);
 
-    % Select mode of QRS counts if there are 3 or more else select the median
-    % QRS number
+    % Select mode of QRS count if 3 or more, else select median QRS count
     if(QRSCount_modeNum >= 3)
         QRSCount_mode_idx = find(QRSCount == QRSCount_mode);
     else
@@ -260,11 +261,11 @@ EEG = pop_reref(EEG,[]);
 % Save intermediate
 if(saveIntermediates == 1 && isfield(options, 'step8_reference'))
     if(options.step8_reference == 1)
-        pop_saveset(EEG,'filename',[fileName,'_preprocess-8reference_eeg'],'filepath',outputDir);
+        pop_saveset(EEG,'filename',[output_fileName,'_preprocess-8reference_eeg'],'filepath',outputDir);
     end
 end
 
-%% STEP 9: computing ICA, flat IC using ICLabel, and removing the highly correlated ICs with muscle and eye artifacts
+%% STEP 9: Compute ICA, flat IC using ICLabel, and remove ICs highly correlated with muscle and eye artifacts
 EEG = pop_runica(EEG,'icatype','runica','concatcond','on','options',{'pca',-1});
 EEG = pop_iclabel(EEG,'default');
 EEG = pop_icflag(EEG,[NaN NaN; 0.8 1; 0.8 1; NaN NaN; NaN NaN; NaN NaN; NaN NaN]);
@@ -277,7 +278,7 @@ if(saveIntermediates == 1 && isfield(options, 'step9_ica'))
     end
 end
 
-%% STEP 10: Saving preprocessing data into output directory
+%% STEP 10: Save preprocessing data into output directory
 if(isempty(saveIntermediates) || options.final == 1)
     pop_saveset(EEG,'filename',[output_fileName,'_preprocess_eeg'],'filepath',outputDir);
 end
