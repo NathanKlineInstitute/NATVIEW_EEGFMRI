@@ -19,6 +19,12 @@ Contains MATLAB script for preprocessing EEG data collected in the NATVIEW_EEGFM
 ## fMRI
 Contains code from [Connectome Computation System (CCS) preprocessing pipeline](https://github.com/TingsterX/CCS-pipeline).
 
+## Eye tracking data
+Contains MATLAB scripts for preprocessing eye tracking data collected in the scanner. These scripts require EEGLAB; although not included in this data release, a script to convert EyeLink to BIDS format is included, which requires the [EyeLink Developers Kit](https://www.sr-research.com/support/thread-13.html).
+* ***natview_eye_edf2bids.m***: MATLAB script for converting EyeLink EDF file format to BIDS format.
+* ***natview_eye_preprocess_blinks.m***: MATLAB script for detecting blinks in raw eye tracking data. Script finds blinks, then linearly interpolates data before and after blink.
+* ***natview_eye_data_qc.m***: MATLAB script for calculating percentage of samples missing in eye tracking data and percentage of time participant's gaze is offscreen.
+
 ## Stimulus
 Contains two MATLAB scripts for stimulus presentation. These scripts use various functions from [Psychtoolbox-3](http://psychtoolbox.org/) for a flickering checkerboard task, resting state task, and video task. Code has also been modified to work with the EyeLink 1000 Plus eye tracker by [SR Research](https://www.sr-research.com/).
 * ***natview_stimuli_checkerboard.m***: MATLAB script for presenting flickering checkerboard stimulus. Task uses a block design with a period of rest followed by a period of a flickering circular checkerboard. User can define the flicker frequency, duration of stimulus period, the number of rest-checkerboard blocks, and checkerboard parameters (grid size and spokes).
