@@ -20,8 +20,9 @@ Contains MATLAB script for preprocessing EEG data collected in the NATVIEW_EEGFM
 Contains code from [Connectome Computation System (CCS) preprocessing pipeline](https://github.com/TingsterX/CCS-pipeline).
 
 ## Eye tracking data
-Contains MATLAB scripts for preprocessing eye tracking data collected in the scanner. These scripts require EEGLAB; although not included in this data release, a script to convert EyeLink to BIDS format is included, which requires the [EyeLink Developers Kit](https://www.sr-research.com/support/thread-13.html).
-* ***natview_eye_edf2bids.m***: MATLAB script for converting EyeLink EDF file format to BIDS format.
+Contains MATLAB scripts for preprocessing eye tracking data collected in the scanner. These scripts require EEGLAB; although not included in this data release, a script to convert EyeLink to BIDS format is included.
+
+* ***natview_eye_edf2bids.m***: MATLAB script for converting EyeLink EDF file format to BIDS format. This script which requires the [EyeLink Developers Kit](https://www.sr-research.com/support/thread-13.html).
 * ***natview_eye_preprocess_blinks.m***: MATLAB script for detecting blinks in raw eye tracking data. Script finds blinks, then linearly interpolates data before and after blink.
 * ***natview_eye_data_qc.m***: MATLAB script for calculating percentage of samples missing in eye tracking data and percentage of time participant's gaze is offscreen.
 
