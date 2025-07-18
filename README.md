@@ -11,7 +11,7 @@ The data release includes:
 3. EyeLink Eye Tracking Data
 4. Biopac Respiratory Data
 
-5. Please also reference this publication when using our code or data:
+Please also reference this publication when using our code or data:
 Telesford QK, Gonzalez-Moreira E, Xu T, Tian Y, Colcombe SJ, Cloud J, Russ BE, Falchier A, Nentwich M, Madsen J, Parra LC, Schroeder CE, Milham MP, Franco AR. An open-access dataset of naturalistic viewing using simultaneous EEG-fMRI. Sci Data. 2023 Aug 23;10(1):554. doi: 10.1038/s41597-023-02458-8. PMID: 37612297; PMCID: PMC10447527.
 
 
