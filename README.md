@@ -1,15 +1,24 @@
 # NATVIEW_EEGFMRI
 Welcome! Here you will find code for preprocessing simultaneous EEG-fMRI data that is part of the Naturalistic Viewing EEG-FMRI (NATVIEW_EEGFMRI) data release from the [Nathan S. Kline Institute for Psychiatric Research](https://www.nki.rfmh.org/).
 
+Data from this study can be downloaded from here:
+[This website](https://fcon_1000.projects.nitrc.org/indi/retro/nat_view.html) provides information on how to download the dataset. 
+
+
 The data release includes:
 1. Electroencephalography (EEG)
 2. Functional Magnetic Resonance Imaging (FMRI)
 3. EyeLink Eye Tracking Data
 4. Biopac Respiratory Data
 
+5. Please also reference this publication when using our code or data:
+Telesford QK, Gonzalez-Moreira E, Xu T, Tian Y, Colcombe SJ, Cloud J, Russ BE, Falchier A, Nentwich M, Madsen J, Parra LC, Schroeder CE, Milham MP, Franco AR. An open-access dataset of naturalistic viewing using simultaneous EEG-fMRI. Sci Data. 2023 Aug 23;10(1):554. doi: 10.1038/s41597-023-02458-8. PMID: 37612297; PMCID: PMC10447527.
+
+
 Included here on this Github repository are various MATLAB scripts, Bash scripts and files related to preprocessing simultaneously collected data. Below you will find a description of the various modalities and their associated code.
 
 ***NOTE: This code is for preprocessing the NATVIEW_EEGFMRI data set with files organized in the [Brain Imaging Data Structure (BIDS)](https://bids.neuroimaging.io/) format. These preprocessing steps can be applied to any simultaneously collected EEG data, but code modification required if file is not in BIDS format.***
+
 
 ## EEG
 Contains MATLAB script for preprocessing EEG data collected in the NATVIEW_EEGFMRI data release. This script requires [EEGLAB](https://sccn.ucsd.edu/eeglab/index.php) and the [FMRIB Plug-In for EEGLAB](https://fsl.fmrib.ox.ac.uk/eeglab/fmribplugin/).
